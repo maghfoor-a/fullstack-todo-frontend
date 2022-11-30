@@ -4,11 +4,11 @@ import MainContent from "./components/MainContent";
 function App(): JSX.Element {
   return (
     <>
-    <AppHeader />
-    <hr/>
-    <MainContent />
+      <AppHeader />
+      <hr />
+      <MainContent />
     </>
-  )
+  );
 }
 
 export default App;
