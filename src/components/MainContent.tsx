@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { sortedTasks } from "../utils/sortedTasks";
+import { createTaskID } from "../utils/createTaskID"
 
 interface TaskType {
   id: number;
@@ -12,26 +13,14 @@ export default function MainContent(): JSX.Element {
   const [btnPressed, setBtnPressed] = useState<boolean>(false);
   const [inputVal, setInputVal] = useState<string>("");
 
-  const createTaskID = (TasksInOrder: TaskType[]): number | undefined => {
-    for (let index = 0; index < tasks.length - 1; index++) {
-      if (tasks[0].id !== 1) {
-        return 1;
-      }
-      if (tasks[index + 1].id === tasks[index].id + 1) {
-        continue;
-      } else {
-        return tasks[index].id + 1;
-      }
-    }
-  };
   const TasksInOrder: TaskType[] = sortedTasks(tasks);
 
   const handleAddTaskButton = async () => {
     await axios.post("https://fullstack-todo.onrender.com/tasks", {
       id:
-        createTaskID(tasks) === undefined
-          ? tasks.length + 1
-          : createTaskID(tasks),
+        createTaskID(TasksInOrder) === undefined
+          ? TasksInOrder.length + 1
+          : createTaskID(TasksInOrder),
       task: inputVal,
     });
     setBtnPressed((prev) => !prev);
