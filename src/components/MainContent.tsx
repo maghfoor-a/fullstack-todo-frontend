@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { sortedTasks } from "../utils/sortedTasks";
 
 interface TaskType {
   id: number;
@@ -11,19 +12,36 @@ export default function MainContent(): JSX.Element {
   const [btnPressed, setBtnPressed] = useState<boolean>(false);
   const [inputVal, setInputVal] = useState<string>("");
 
+  const createTaskID = (TasksInOrder: TaskType[]): number | undefined => {
+    for (let index = 0; index < tasks.length - 1; index++) {
+      if (tasks[0].id !== 1) {
+        return 1;
+      }
+      if (tasks[index + 1].id === tasks[index].id + 1) {
+        continue;
+      } else {
+        return tasks[index].id + 1;
+      }
+    }
+  };
+  const TasksInOrder: TaskType[] = sortedTasks(tasks);
+
   const handleAddTaskButton = async () => {
     await axios.post("https://fullstack-todo.onrender.com/tasks", {
-      id: tasks.length + 1,
+      id:
+        createTaskID(tasks) === undefined
+          ? tasks.length + 1
+          : createTaskID(tasks),
       task: inputVal,
     });
     setBtnPressed((prev) => !prev);
     setInputVal("");
-  }
+  };
 
   const handleDeleteTask = async (id: number) => {
-    await axios.delete(`https://fullstack-todo.onrender.com/task/${id}`)
-  }
-
+    await axios.delete(`https://fullstack-todo.onrender.com/task/${id}`);
+    setBtnPressed((prev) => !prev);
+  };
 
   useEffect(() => {
     const fetchAllTasks = async () => {
@@ -39,11 +57,7 @@ export default function MainContent(): JSX.Element {
   return (
     <>
       <h1>ALL TASKS</h1>
-      <button
-        onClick={handleAddTaskButton}
-      >
-        add task
-      </button>
+      <button onClick={handleAddTaskButton}>add task</button>
       <button
         onClick={async () => {
           await axios.patch("https://fullstack-todo.onrender.com/tasks/reset");
@@ -57,13 +71,15 @@ export default function MainContent(): JSX.Element {
         value={inputVal}
         onChange={(e) => setInputVal(e.target.value)}
       ></input>
-      {tasks.map((task, i) => (
-        <>
-        <p key={i}>
-          Task Number {task.id}: {task.task}
-        </p>
-        <button onClick={() => handleDeleteTask(task.id)}>Delete task {task.id}</button>
-        </>
+      {TasksInOrder.map((task, i) => (
+        <div key={i}>
+          <p>
+            Task Number {task.id}: {task.task}
+          </p>
+          <button onClick={() => handleDeleteTask(task.id)}>
+            Delete task {task.id}
+          </button>
+        </div>
       ))}
     </>
   );
