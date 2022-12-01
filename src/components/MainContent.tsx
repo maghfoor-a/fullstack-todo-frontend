@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { sortedTasks } from "../utils/sortedTasks";
-import { createTaskID } from "../utils/createTaskID"
+import { createTaskID } from "../utils/createTaskID";
 
 interface TaskType {
   id: number;
