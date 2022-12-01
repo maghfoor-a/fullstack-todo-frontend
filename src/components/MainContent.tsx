@@ -10,6 +10,21 @@ export default function MainContent(): JSX.Element {
   const [tasks, setTasks] = useState<TaskType[] | []>([]);
   const [btnPressed, setBtnPressed] = useState<boolean>(false);
   const [inputVal, setInputVal] = useState<string>("");
+
+  const handleAddTaskButton = async () => {
+    await axios.post("https://fullstack-todo.onrender.com/tasks", {
+      id: tasks.length + 1,
+      task: inputVal,
+    });
+    setBtnPressed((prev) => !prev);
+    setInputVal("");
+  }
+
+  const handleDeleteTask = async (id: number) => {
+    await axios.delete(`https://fullstack-todo.onrender.com/task/${id}`)
+  }
+
+
   useEffect(() => {
     const fetchAllTasks = async () => {
       const axiosResponse = await axios.get(
@@ -25,14 +40,7 @@ export default function MainContent(): JSX.Element {
     <>
       <h1>ALL TASKS</h1>
       <button
-        onClick={async () => {
-          await axios.post("https://fullstack-todo.onrender.com/tasks", {
-            id: tasks.length + 1,
-            task: inputVal,
-          });
-          setBtnPressed((prev) => !prev);
-          setInputVal("");
-        }}
+        onClick={handleAddTaskButton}
       >
         add task
       </button>
@@ -50,9 +58,12 @@ export default function MainContent(): JSX.Element {
         onChange={(e) => setInputVal(e.target.value)}
       ></input>
       {tasks.map((task, i) => (
+        <>
         <p key={i}>
           Task Number {task.id}: {task.task}
         </p>
+        <button onClick={() => handleDeleteTask(task.id)}>Delete task {task.id}</button>
+        </>
       ))}
     </>
   );
