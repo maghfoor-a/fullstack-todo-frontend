@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { sortedTasks } from "../utils/sortedTasks";
 import "./MainContentStyles.css";
 
 interface TaskType {
@@ -11,10 +10,9 @@ interface TaskType {
 
 export default function MainContent(): JSX.Element {
   const [tasks, setTasks] = useState<TaskType[] | []>([]);
+  const [completedTasks, setCompletedTasks] = useState<TaskType[] | []>([]);
   const [btnPressed, setBtnPressed] = useState<boolean>(false);
   const [inputVal, setInputVal] = useState<string>("");
-
-  const TasksInOrder: TaskType[] = sortedTasks(tasks);
 
   const handleAddTaskButton = async () => {
     await axios.post("https://fullstack-todo.onrender.com/tasks", {
@@ -38,13 +36,23 @@ export default function MainContent(): JSX.Element {
       console.log("The status code of response is", axiosResponse.status);
     };
     fetchAllTasks();
+    const fetchCompeltedTasks = async () => {
+      const axiosCompletedTaskRes = await axios.get("https://fullstack-todo.onrender.com/tasks/completed")
+      setCompletedTasks(axiosCompletedTaskRes.data);
+    };
+    fetchCompeltedTasks();
   }, [btnPressed]);
+
+  console.log(completedTasks)
 
   const handleTaskClicked = async (task: TaskType) => {
     await axios.patch(`https://fullstack-todo.onrender.com/tasks/${task.id}`, {
       status: true,
       task: task.task,
     });
+    await axios.post("https://fullstack-todo.onrender.com/tasks/completed", {
+      ...task
+    } )
     setBtnPressed((prev) => !prev);
   };
   return (
@@ -65,7 +73,7 @@ export default function MainContent(): JSX.Element {
         Clear All
       </button>
       <hr />
-      {TasksInOrder.map((task, i) => (
+      {tasks.map((task, i) => (
         <div key={i}>
           <li onClick={() => handleTaskClicked(task)} className="TaskText">
             {task.task}
@@ -75,6 +83,8 @@ export default function MainContent(): JSX.Element {
         </div>
       ))}
       <hr />
+      <div>
+      </div>
     </>
   );
 }
