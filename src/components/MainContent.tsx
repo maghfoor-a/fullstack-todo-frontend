@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { sortedTasks } from "../utils/sortedTasks";
-import { createTaskID } from "../utils/createTaskID";
+import "./MainContentStyles.css"
 
 interface TaskType {
   id: number;
+  status: boolean;
   task: string;
 }
 
@@ -17,11 +18,7 @@ export default function MainContent(): JSX.Element {
 
   const handleAddTaskButton = async () => {
     await axios.post("https://fullstack-todo.onrender.com/tasks", {
-      id:
-        createTaskID(TasksInOrder) === undefined
-          ? TasksInOrder.length + 1
-          : createTaskID(TasksInOrder),
-      task: inputVal,
+      task: inputVal
     });
     setBtnPressed((prev) => !prev);
     setInputVal("");
@@ -42,7 +39,13 @@ export default function MainContent(): JSX.Element {
     };
     fetchAllTasks();
   }, [btnPressed]);
-  console.log(tasks);
+
+  const handleTaskClicked = async (task: TaskType) => {
+    await axios.patch(`https://fullstack-todo.onrender.com/tasks/${task.id}`, {
+      status: true,
+      task: task.task})
+      setBtnPressed((prev) => !prev);
+  }
   return (
     <>
       <h1>ALL TASKS</h1>
@@ -62,9 +65,10 @@ export default function MainContent(): JSX.Element {
       ></input>
       {TasksInOrder.map((task, i) => (
         <div key={i}>
-          <p>
+          <p onClick={() => handleTaskClicked(task)} className="TaskText">
             Task Number {task.id}: {task.task}
           </p>
+          {task.status && <p>✅</p>}
           <button onClick={() => handleDeleteTask(task.id)}>
             Delete task {task.id}
           </button>

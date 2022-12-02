@@ -1,5 +1,6 @@
 interface TaskType {
   id: number;
+  status: boolean;
   task: string;
 }
 export function sortedTasks(tasks: TaskType[]): TaskType[] {
