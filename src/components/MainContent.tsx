@@ -49,7 +49,7 @@ export default function MainContent(): JSX.Element {
       <button onClick={handleAddTaskButton}>add task</button>
       <button
         onClick={async () => {
-          await axios.patch("https://fullstack-todo.onrender.com/tasks/reset");
+          await axios.delete("https://fullstack-todo.onrender.com/tasks/reset");
           setBtnPressed((prev) => !prev);
         }}
       >
