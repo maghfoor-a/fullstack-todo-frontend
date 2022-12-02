@@ -14,10 +14,16 @@ export default function MainContent(): JSX.Element {
   const [btnPressed, setBtnPressed] = useState<boolean>(false);
   const [inputVal, setInputVal] = useState<string>("");
 
-  const handleDeleteTask = async (id: number) => {
-    await axios.delete(`https://fullstack-todo.onrender.com/task/${id}`);
+  const handleCompleteTask = async (task: TaskType) => {
+    await axios.post(`https://fullstack-todo.onrender.com/completed`, {...task});
+    await axios.delete(`https://fullstack-todo.onrender.com/task/${task.id}`);
     setBtnPressed((prev) => !prev);
   };
+
+  const handleDeleteTask = async (task: TaskType) => {
+    await axios.delete(`https://fullstack-todo.onrender.com/task/${task.id}`);
+    setBtnPressed((prev) => !prev);
+  }
 
   useEffect(() => {
     const fetchAllTasks = async () => {
@@ -44,6 +50,11 @@ export default function MainContent(): JSX.Element {
     setBtnPressed((prev) => !prev);
     setInputVal("");
   };
+
+  const handleClearCompleted = async () => {
+    await axios.delete("https://fullstack-todo.onrender.com/completed/reset");
+    setBtnPressed((prev) => !prev);
+  }
   console.log(completedTasks);
 
   const handleTaskClicked = async (task: TaskType) => {
@@ -80,13 +91,16 @@ export default function MainContent(): JSX.Element {
             {task.task}
           </li>
           {task.status && <p>✅</p>}
-          <button onClick={() => handleDeleteTask(task.id)}>Delete</button>
+          <button onClick={() => handleCompleteTask(task)}>✅</button>
+          <button onClick={() => handleDeleteTask(task)}>☒</button>
         </div>
       ))}
       <hr />
+      <h1>COMPLETED</h1>
+      <button onClick={handleClearCompleted}>Clear</button>
       {completedTasks.map((completed, i) => (
         <div key={completed.task + i}>
-          <li>{completed.task}</li>
+          <li><s>{completed.task}</s></li>
         </div>
       ))}
     </>
