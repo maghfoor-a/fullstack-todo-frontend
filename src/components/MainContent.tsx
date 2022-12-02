@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { sortedTasks } from "../utils/sortedTasks";
-import "./MainContentStyles.css"
+import "./MainContentStyles.css";
 
 interface TaskType {
   id: number;
@@ -18,7 +18,7 @@ export default function MainContent(): JSX.Element {
 
   const handleAddTaskButton = async () => {
     await axios.post("https://fullstack-todo.onrender.com/tasks", {
-      task: inputVal
+      task: inputVal,
     });
     setBtnPressed((prev) => !prev);
     setInputVal("");
@@ -43,9 +43,10 @@ export default function MainContent(): JSX.Element {
   const handleTaskClicked = async (task: TaskType) => {
     await axios.patch(`https://fullstack-todo.onrender.com/tasks/${task.id}`, {
       status: true,
-      task: task.task})
-      setBtnPressed((prev) => !prev);
-  }
+      task: task.task,
+    });
+    setBtnPressed((prev) => !prev);
+  };
   return (
     <>
       <h1>ALL TASKS</h1>
