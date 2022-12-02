@@ -37,13 +37,15 @@ export default function MainContent(): JSX.Element {
     };
     fetchAllTasks();
     const fetchCompeltedTasks = async () => {
-      const axiosCompletedTaskRes = await axios.get("https://fullstack-todo.onrender.com/tasks/completed")
+      const axiosCompletedTaskRes = await axios.get(
+        "https://fullstack-todo.onrender.com/tasks/completed"
+      );
       setCompletedTasks(axiosCompletedTaskRes.data);
     };
     fetchCompeltedTasks();
   }, [btnPressed]);
 
-  console.log(completedTasks)
+  console.log(completedTasks);
 
   const handleTaskClicked = async (task: TaskType) => {
     await axios.patch(`https://fullstack-todo.onrender.com/tasks/${task.id}`, {
@@ -51,8 +53,8 @@ export default function MainContent(): JSX.Element {
       task: task.task,
     });
     await axios.post("https://fullstack-todo.onrender.com/tasks/completed", {
-      ...task
-    } )
+      ...task,
+    });
     setBtnPressed((prev) => !prev);
   };
   return (
@@ -83,8 +85,7 @@ export default function MainContent(): JSX.Element {
         </div>
       ))}
       <hr />
-      <div>
-      </div>
+      <div></div>
     </>
   );
 }
