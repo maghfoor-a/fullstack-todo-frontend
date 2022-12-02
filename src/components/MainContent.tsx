@@ -50,6 +50,11 @@ export default function MainContent(): JSX.Element {
   return (
     <>
       <h1>ALL TASKS</h1>
+      <p>Add a task name below!</p>
+      <input
+        value={inputVal}
+        onChange={(e) => setInputVal(e.target.value)}
+      ></input>
       <button onClick={handleAddTaskButton}>add task</button>
       <button
         onClick={async () => {
@@ -59,22 +64,20 @@ export default function MainContent(): JSX.Element {
       >
         Clear All
       </button>
-      <p>Add a task name below!</p>
-      <input
-        value={inputVal}
-        onChange={(e) => setInputVal(e.target.value)}
-      ></input>
+      <hr />
       {TasksInOrder.map((task, i) => (
         <div key={i}>
-          <p onClick={() => handleTaskClicked(task)} className="TaskText">
-            Task Number {task.id}: {task.task}
-          </p>
+          <li onClick={() => handleTaskClicked(task)} className="TaskText">
+            {task.task}
+          </li>
           {task.status && <p>✅</p>}
           <button onClick={() => handleDeleteTask(task.id)}>
-            Delete task {task.id}
+            Delete
           </button>
         </div>
       ))}
+      <hr/>
+
     </>
   );
 }
