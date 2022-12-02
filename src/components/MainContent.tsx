@@ -15,7 +15,9 @@ export default function MainContent(): JSX.Element {
   const [inputVal, setInputVal] = useState<string>("");
 
   const handleCompleteTask = async (task: TaskType) => {
-    await axios.post(`https://fullstack-todo.onrender.com/completed`, {...task});
+    await axios.post(`https://fullstack-todo.onrender.com/completed`, {
+      ...task,
+    });
     await axios.delete(`https://fullstack-todo.onrender.com/task/${task.id}`);
     setBtnPressed((prev) => !prev);
   };
@@ -23,7 +25,7 @@ export default function MainContent(): JSX.Element {
   const handleDeleteTask = async (task: TaskType) => {
     await axios.delete(`https://fullstack-todo.onrender.com/task/${task.id}`);
     setBtnPressed((prev) => !prev);
-  }
+  };
 
   useEffect(() => {
     const fetchAllTasks = async () => {
@@ -54,7 +56,7 @@ export default function MainContent(): JSX.Element {
   const handleClearCompleted = async () => {
     await axios.delete("https://fullstack-todo.onrender.com/completed/reset");
     setBtnPressed((prev) => !prev);
-  }
+  };
   console.log(completedTasks);
 
   const handleTaskClicked = async (task: TaskType) => {
@@ -100,7 +102,9 @@ export default function MainContent(): JSX.Element {
       <button onClick={handleClearCompleted}>Clear</button>
       {completedTasks.map((completed, i) => (
         <div key={completed.task + i}>
-          <li><s>{completed.task}</s></li>
+          <li>
+            <s>{completed.task}</s>
+          </li>
         </div>
       ))}
     </>
