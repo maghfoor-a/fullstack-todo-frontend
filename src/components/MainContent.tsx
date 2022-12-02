@@ -14,14 +14,6 @@ export default function MainContent(): JSX.Element {
   const [btnPressed, setBtnPressed] = useState<boolean>(false);
   const [inputVal, setInputVal] = useState<string>("");
 
-  const handleAddTaskButton = async () => {
-    await axios.post("https://fullstack-todo.onrender.com/tasks", {
-      task: inputVal,
-    });
-    setBtnPressed((prev) => !prev);
-    setInputVal("");
-  };
-
   const handleDeleteTask = async (id: number) => {
     await axios.delete(`https://fullstack-todo.onrender.com/task/${id}`);
     setBtnPressed((prev) => !prev);
@@ -38,13 +30,20 @@ export default function MainContent(): JSX.Element {
     fetchAllTasks();
     const fetchCompeltedTasks = async () => {
       const axiosCompletedTaskRes = await axios.get(
-        "https://fullstack-todo.onrender.com/tasks/completed"
+        "https://fullstack-todo.onrender.com/completed"
       );
       setCompletedTasks(axiosCompletedTaskRes.data);
     };
     fetchCompeltedTasks();
   }, [btnPressed]);
 
+  const handleAddTaskButton = async () => {
+    await axios.post("https://fullstack-todo.onrender.com/tasks", {
+      task: inputVal,
+    });
+    setBtnPressed((prev) => !prev);
+    setInputVal("");
+  };
   console.log(completedTasks);
 
   const handleTaskClicked = async (task: TaskType) => {
@@ -85,7 +84,11 @@ export default function MainContent(): JSX.Element {
         </div>
       ))}
       <hr />
-      <div></div>
+      {completedTasks.map((completed, i) => (
+        <div key={completed.task + i}>
+          <li>{completed.task}</li>
+        </div>
+      ))}
     </>
   );
 }
