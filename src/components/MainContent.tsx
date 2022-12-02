@@ -71,13 +71,10 @@ export default function MainContent(): JSX.Element {
             {task.task}
           </li>
           {task.status && <p>✅</p>}
-          <button onClick={() => handleDeleteTask(task.id)}>
-            Delete
-          </button>
+          <button onClick={() => handleDeleteTask(task.id)}>Delete</button>
         </div>
       ))}
-      <hr/>
-
+      <hr />
     </>
   );
 }
