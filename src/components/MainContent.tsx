@@ -59,16 +59,6 @@ export default function MainContent(): JSX.Element {
   };
   console.log(completedTasks);
 
-  const handleTaskClicked = async (task: TaskType) => {
-    await axios.patch(`https://fullstack-todo.onrender.com/tasks/${task.id}`, {
-      status: true,
-      task: task.task,
-    });
-    await axios.post("https://fullstack-todo.onrender.com/tasks/completed", {
-      ...task,
-    });
-    setBtnPressed((prev) => !prev);
-  };
   return (
     <>
       <h1>ALL TASKS</h1>
@@ -89,9 +79,7 @@ export default function MainContent(): JSX.Element {
       <hr />
       {tasks.map((task, i) => (
         <div key={i}>
-          <li onClick={() => handleTaskClicked(task)} className="TaskText">
-            {task.task}
-          </li>
+          <li className="TaskText">{task.task}</li>
           {task.status && <p>✅</p>}
           <button onClick={() => handleCompleteTask(task)}>✅</button>
           <button onClick={() => handleDeleteTask(task)}>☒</button>
