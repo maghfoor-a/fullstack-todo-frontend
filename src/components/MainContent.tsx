@@ -82,7 +82,7 @@ export default function MainContent(): JSX.Element {
           <li className="TaskText">{task.task}</li>
           {task.status && <p>✅</p>}
           <button onClick={() => handleCompleteTask(task)}>✅</button>
-          <button onClick={() => handleDeleteTask(task)}>☒</button>
+          <button onClick={() => handleDeleteTask(task)}>❌</button>
         </div>
       ))}
       <hr />
