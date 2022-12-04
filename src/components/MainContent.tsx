@@ -57,7 +57,6 @@ export default function MainContent(): JSX.Element {
     await axios.delete("https://fullstack-todo.onrender.com/completed/reset");
     setBtnPressed((prev) => !prev);
   };
-  console.log(completedTasks);
 
   return (
     <>
