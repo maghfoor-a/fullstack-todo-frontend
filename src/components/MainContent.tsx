@@ -58,6 +58,11 @@ export default function MainContent(): JSX.Element {
     setBtnPressed((prev) => !prev);
   };
 
+  const handleClearTask = async () => {
+    await axios.delete("https://fullstack-todo.onrender.com/tasks/reset");
+    setBtnPressed((prev) => !prev);
+  };
+
   return (
     <>
       <h1>ALL TASKS</h1>
@@ -67,14 +72,7 @@ export default function MainContent(): JSX.Element {
         onChange={(e) => setInputVal(e.target.value)}
       ></input>
       <button onClick={handleAddTaskButton}>add task</button>
-      <button
-        onClick={async () => {
-          await axios.delete("https://fullstack-todo.onrender.com/tasks/reset");
-          setBtnPressed((prev) => !prev);
-        }}
-      >
-        Clear All
-      </button>
+      <button onClick={handleClearTask}>Clear All</button>
       <hr />
       {tasks.map((task, i) => (
         <div key={i}>
