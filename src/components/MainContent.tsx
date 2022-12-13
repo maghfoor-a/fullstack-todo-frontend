@@ -47,7 +47,7 @@ export default function MainContent(): JSX.Element {
 
   const handleAddTaskButton = async () => {
     await axios.post("https://fullstack-todo.onrender.com/tasks", {
-      task: inputVal,
+      message: inputVal,
     });
     setBtnPressed((prev) => !prev);
     setInputVal("");
