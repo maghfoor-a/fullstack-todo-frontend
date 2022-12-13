@@ -16,7 +16,7 @@ export default function MainContent(): JSX.Element {
 
   const handleCompleteTask = async (task: TaskType) => {
     await axios.post(`https://fullstack-todo.onrender.com/completed`, {
-      ...task,
+      id: task.id
     });
     await axios.delete(`https://fullstack-todo.onrender.com/task/${task.id}`);
     setBtnPressed((prev) => !prev);
