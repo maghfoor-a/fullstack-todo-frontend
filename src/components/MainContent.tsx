@@ -16,12 +16,15 @@ export default function MainContent(): JSX.Element {
 
   const handleCompleteTask = async (task: TaskType) => {
     await axios.post(`https://fullstack-todo.onrender.com/completed`, {
-      id: task.task_id
+      id: task.task_id,
     });
+    setBtnPressed((prev) => !prev);
   };
 
   const handleDeleteTask = async (task: TaskType) => {
-    await axios.delete(`https://fullstack-todo.onrender.com/task/${task.task_id}`);
+    await axios.delete(
+      `https://fullstack-todo.onrender.com/task/${task.task_id}`
+    );
     setBtnPressed((prev) => !prev);
   };
 
