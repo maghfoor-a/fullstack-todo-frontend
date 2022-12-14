@@ -18,8 +18,6 @@ export default function MainContent(): JSX.Element {
     await axios.post(`https://fullstack-todo.onrender.com/completed`, {
       id: task.id
     });
-    await axios.delete(`https://fullstack-todo.onrender.com/task/${task.id}`);
-    setBtnPressed((prev) => !prev);
   };
 
   const handleDeleteTask = async (task: TaskType) => {
