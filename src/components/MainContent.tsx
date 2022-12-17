@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useState } from "react";
 import "./MainContentStyles.css";
 import { TaskType } from "../utils/interface-TaskType";
 
@@ -9,12 +8,14 @@ import { handleDeleteTask } from "../utils/handleDeleteTask";
 import { handleAddTask } from "../utils/handleAddTask";
 import { handleClearCompleted } from "../utils/handleClearCompleted";
 import { handleClearTasks } from "../utils/handleClearTasks";
+import { useFetchAllTasks } from "../utils/customHooks/fetchAllTasks";
 
 export default function MainContent(): JSX.Element {
-  const [tasks, setTasks] = useState<TaskType[] | []>([]);
-  const [completedTasks, setCompletedTasks] = useState<TaskType[] | []>([]);
   const [btnPressed, setBtnPressed] = useState<boolean>(false);
   const [inputVal, setInputVal] = useState<string>("");
+
+  const tasks = useFetchAllTasks(btnPressed).tasks;
+  const completedTasks = useFetchAllTasks(btnPressed).completedTasks;
 
   const completeTask = async (task: TaskType) => {
     await handleCompleteTask(task);
@@ -37,27 +38,26 @@ export default function MainContent(): JSX.Element {
     setBtnPressed((prev) => !prev);
   };
 
-  useEffect(() => {
-    const fetchAllTasks = async () => {
-      const axiosResponse = await axios.get(
-        "https://fullstack-todo.onrender.com/tasks"
-      );
-      setTasks(axiosResponse.data);
-    };
-    fetchAllTasks();
-    const fetchCompeltedTasks = async () => {
-      const axiosCompletedTaskRes = await axios.get(
-        "https://fullstack-todo.onrender.com/completed"
-      );
-      setCompletedTasks(axiosCompletedTaskRes.data);
-    };
-    fetchCompeltedTasks();
-  }, [btnPressed]);
-
   const clearTasks = async () => {
     await handleClearTasks();
     setBtnPressed((prev) => !prev);
   };
+  // useEffect(() => {
+  //   const fetchAllTasks = async () => {
+  //     const axiosResponse = await axios.get(
+  //       "https://fullstack-todo.onrender.com/tasks"
+  //     );
+  //     setTasks(axiosResponse.data);
+  //   };
+  //   fetchAllTasks();
+  //   const fetchCompeltedTasks = async () => {
+  //     const axiosCompletedTaskRes = await axios.get(
+  //       "https://fullstack-todo.onrender.com/completed"
+  //     );
+  //     setCompletedTasks(axiosCompletedTaskRes.data);
+  //   };
+  //   fetchCompeltedTasks();
+  // }, [btnPressed]);
 
   return (
     <>
