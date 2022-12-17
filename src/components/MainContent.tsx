@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./MainContentStyles.css";
+import { TaskType } from "../utils/interface-TaskType";
 
-interface TaskType {
-  task_id: number;
-  status: boolean;
-  task: string;
-}
+//importing helper functions
+import { handleCompleteTask } from "../utils/handleCompleteTask";
+import { handleDeleteTask } from "../utils/handleDeleteTask";
+import { handleAddTask } from "../utils/handleAddTask";
+import { handleClearCompleted } from "../utils/handleClearCompleted";
+import { handleClearTasks } from "../utils/handleClearTasks";
 
 export default function MainContent(): JSX.Element {
   const [tasks, setTasks] = useState<TaskType[] | []>([]);
@@ -14,17 +16,24 @@ export default function MainContent(): JSX.Element {
   const [btnPressed, setBtnPressed] = useState<boolean>(false);
   const [inputVal, setInputVal] = useState<string>("");
 
-  const handleCompleteTask = async (task: TaskType) => {
-    await axios.post(`https://fullstack-todo.onrender.com/completed`, {
-      id: task.task_id,
-    });
+  const completeTask = async (task: TaskType) => {
+    await handleCompleteTask(task);
     setBtnPressed((prev) => !prev);
   };
 
-  const handleDeleteTask = async (task: TaskType) => {
-    await axios.delete(
-      `https://fullstack-todo.onrender.com/task/${task.task_id}`
-    );
+  const deleteTask = async (task: TaskType) => {
+    await handleDeleteTask(task);
+    setBtnPressed((prev) => !prev);
+  };
+
+  const addTask = async () => {
+    await handleAddTask(inputVal);
+    setBtnPressed((prev) => !prev);
+    setInputVal("");
+  };
+
+  const clearCompleted = async () => {
+    await handleClearCompleted();
     setBtnPressed((prev) => !prev);
   };
 
@@ -34,7 +43,6 @@ export default function MainContent(): JSX.Element {
         "https://fullstack-todo.onrender.com/tasks"
       );
       setTasks(axiosResponse.data);
-      console.log("The status code of response is", axiosResponse.status);
     };
     fetchAllTasks();
     const fetchCompeltedTasks = async () => {
@@ -46,21 +54,8 @@ export default function MainContent(): JSX.Element {
     fetchCompeltedTasks();
   }, [btnPressed]);
 
-  const handleAddTaskButton = async () => {
-    await axios.post("https://fullstack-todo.onrender.com/tasks", {
-      message: inputVal,
-    });
-    setBtnPressed((prev) => !prev);
-    setInputVal("");
-  };
-
-  const handleClearCompleted = async () => {
-    await axios.delete("https://fullstack-todo.onrender.com/completed/reset");
-    setBtnPressed((prev) => !prev);
-  };
-
-  const handleClearTask = async () => {
-    await axios.delete("https://fullstack-todo.onrender.com/tasks/reset");
+  const clearTasks = async () => {
+    await handleClearTasks();
     setBtnPressed((prev) => !prev);
   };
 
@@ -72,20 +67,20 @@ export default function MainContent(): JSX.Element {
         value={inputVal}
         onChange={(e) => setInputVal(e.target.value)}
       ></input>
-      <button onClick={handleAddTaskButton}>add task</button>
-      <button onClick={handleClearTask}>Clear All</button>
+      <button onClick={addTask}>add task</button>
+      <button onClick={clearTasks}>Clear All</button>
       <hr />
       {tasks.map((task, i) => (
         <div key={i}>
           <li className="TaskText">{task.task}</li>
           {task.status && <p>✅</p>}
-          <button onClick={() => handleCompleteTask(task)}>✅</button>
-          <button onClick={() => handleDeleteTask(task)}>❌</button>
+          <button onClick={() => completeTask(task)}>✅</button>
+          <button onClick={() => deleteTask(task)}>❌</button>
         </div>
       ))}
       <hr />
       <h1>COMPLETED</h1>
-      <button onClick={handleClearCompleted}>Clear</button>
+      <button onClick={clearCompleted}>Clear</button>
       {completedTasks.map((completed, i) => (
         <div key={completed.task + i}>
           <li>
