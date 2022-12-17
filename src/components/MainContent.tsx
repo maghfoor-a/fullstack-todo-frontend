@@ -42,22 +42,6 @@ export default function MainContent(): JSX.Element {
     await handleClearTasks();
     setBtnPressed((prev) => !prev);
   };
-  // useEffect(() => {
-  //   const fetchAllTasks = async () => {
-  //     const axiosResponse = await axios.get(
-  //       "https://fullstack-todo.onrender.com/tasks"
-  //     );
-  //     setTasks(axiosResponse.data);
-  //   };
-  //   fetchAllTasks();
-  //   const fetchCompeltedTasks = async () => {
-  //     const axiosCompletedTaskRes = await axios.get(
-  //       "https://fullstack-todo.onrender.com/completed"
-  //     );
-  //     setCompletedTasks(axiosCompletedTaskRes.data);
-  //   };
-  //   fetchCompeltedTasks();
-  // }, [btnPressed]);
 
   return (
     <>
