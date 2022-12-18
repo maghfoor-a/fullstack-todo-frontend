@@ -11,7 +11,6 @@ import { handleAddTask } from "../utils/handleAddTask";
 import { handleClearCompleted } from "../utils/handleClearCompleted";
 import { handleClearTasks } from "../utils/handleClearTasks";
 import { useFetchAllTasks } from "../utils/customHooks/fetchAllTasks";
-import AppHeader from "./AppHeader";
 
 interface MainContentProps {
   LoggedInUser: User | null;

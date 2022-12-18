@@ -10,7 +10,7 @@ export default function LoginPage(): JSX.Element {
   const signInWithGoogle = async () => {
     setAuthing(true);
     try {
-      const response = await signInWithPopup(auth, googleAuthProvider);
+      await signInWithPopup(auth, googleAuthProvider);
       navigate("/");
     } catch (err) {
       console.error(err);
