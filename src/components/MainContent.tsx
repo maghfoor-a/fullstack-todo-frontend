@@ -52,7 +52,6 @@ export default function MainContent(props: MainContentProps): JSX.Element {
 
   return (
     <>
-      <AppHeader />
       {props.LoggedInUser && (
         <h4>Hi {props.LoggedInUser.displayName}! Here are your tasks!</h4>
       )}
