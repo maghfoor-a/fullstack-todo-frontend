@@ -18,7 +18,6 @@ export default function AuthRoute(props: Props): JSX.Element {
         setLoading(false);
         props.setLoggedInUser(user);
       } else {
-        console.log("unAuthorised");
         navigate("/login");
       }
     });

@@ -11,7 +11,6 @@ export default function LoginPage(): JSX.Element {
     setAuthing(true);
     try {
       const response = await signInWithPopup(auth, googleAuthProvider);
-      console.log(response.user.uid);
       navigate("/");
     } catch (err) {
       console.error(err);
