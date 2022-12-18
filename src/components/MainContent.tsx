@@ -1,6 +1,8 @@
 import { useState } from "react";
 import "./MainContentStyles.css";
 import { TaskType } from "../utils/interface-TaskType";
+import { auth } from "../config/firebaseConfig";
+import { signOut, User } from "firebase/auth";
 
 //importing helper functions
 import { handleCompleteTask } from "../utils/handleCompleteTask";
@@ -9,8 +11,13 @@ import { handleAddTask } from "../utils/handleAddTask";
 import { handleClearCompleted } from "../utils/handleClearCompleted";
 import { handleClearTasks } from "../utils/handleClearTasks";
 import { useFetchAllTasks } from "../utils/customHooks/fetchAllTasks";
+import AppHeader from "./AppHeader";
 
-export default function MainContent(): JSX.Element {
+interface MainContentProps {
+  LoggedInUser: User | null;
+}
+
+export default function MainContent(props: MainContentProps): JSX.Element {
   const [btnPressed, setBtnPressed] = useState<boolean>(false);
   const [inputVal, setInputVal] = useState<string>("");
 
@@ -45,6 +52,14 @@ export default function MainContent(): JSX.Element {
 
   return (
     <>
+      <AppHeader />
+      {props.LoggedInUser && (
+        <h4>Hi {props.LoggedInUser.displayName}! Here are your tasks!</h4>
+      )}
+      {props.LoggedInUser && props.LoggedInUser.photoURL && (
+        <img src={props.LoggedInUser.photoURL} alt="User" />
+      )}
+      <button onClick={() => signOut(auth)}>SIGN OUT</button>
       <h1>ALL TASKS</h1>
       <p>Add a task name below!</p>
       <input
