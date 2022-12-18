@@ -1,5 +1,6 @@
 export interface TaskType {
   task_id: number;
-  status: boolean;
+  complete: boolean;
   task: string;
+  user_id: string;
 }

@@ -20,8 +20,8 @@ export default function MainContent(props: MainContentProps): JSX.Element {
   const [btnPressed, setBtnPressed] = useState<boolean>(false);
   const [inputVal, setInputVal] = useState<string>("");
 
-  const tasks = useFetchAllTasks(btnPressed).tasks;
-  const completedTasks = useFetchAllTasks(btnPressed).completedTasks;
+  const userUID = props.LoggedInUser && props.LoggedInUser.uid;
+  const tasks = useFetchAllTasks({ btnPressed, userUID }).tasks;
 
   const completeTask = async (task: TaskType) => {
     await handleCompleteTask(task);
@@ -34,18 +34,18 @@ export default function MainContent(props: MainContentProps): JSX.Element {
   };
 
   const addTask = async () => {
-    await handleAddTask(inputVal);
+    await handleAddTask(inputVal, userUID);
     setBtnPressed((prev) => !prev);
     setInputVal("");
   };
 
   const clearCompleted = async () => {
-    await handleClearCompleted();
+    await handleClearCompleted(userUID);
     setBtnPressed((prev) => !prev);
   };
 
   const clearTasks = async () => {
-    await handleClearTasks();
+    await handleClearTasks(userUID);
     setBtnPressed((prev) => !prev);
   };
 
@@ -55,9 +55,16 @@ export default function MainContent(props: MainContentProps): JSX.Element {
         <h4>Hi {props.LoggedInUser.displayName}! Here are your tasks!</h4>
       )}
       {props.LoggedInUser && props.LoggedInUser.photoURL && (
-        <img src={props.LoggedInUser.photoURL} alt="User" />
+        <img
+          slot="start"
+          referrerPolicy="no-referrer"
+          src={props.LoggedInUser.photoURL}
+          alt="User"
+        />
       )}
-      <button onClick={() => signOut(auth)}>SIGN OUT</button>
+      <div>
+        <button onClick={() => signOut(auth)}>SIGN OUT</button>
+      </div>
       <h1>ALL TASKS</h1>
       <p>Add a task name below!</p>
       <input
@@ -67,24 +74,35 @@ export default function MainContent(props: MainContentProps): JSX.Element {
       <button onClick={addTask}>add task</button>
       <button onClick={clearTasks}>Clear All</button>
       <hr />
-      {tasks.map((task, i) => (
-        <div key={i}>
-          <li className="TaskText">{task.task}</li>
-          {task.status && <p>✅</p>}
-          <button onClick={() => completeTask(task)}>✅</button>
-          <button onClick={() => deleteTask(task)}>❌</button>
-        </div>
-      ))}
+      {tasks
+        .filter((task) => task.complete === false)
+        .map((task, i) => (
+          <div key={i}>
+            <li className="TaskText">{task.task}</li>
+            {task.complete && <p>✅</p>}
+            <button onClick={() => completeTask(task)}>✅</button>
+            <button onClick={() => deleteTask(task)}>❌</button>
+          </div>
+        ))}
       <hr />
       <h1>COMPLETED</h1>
       <button onClick={clearCompleted}>Clear</button>
-      {completedTasks.map((completed, i) => (
+      {tasks
+        .filter((task) => task.complete === true)
+        .map((task, i) => (
+          <div key={i}>
+            <li>
+              <s>{task.task}</s>
+            </li>
+          </div>
+        ))}
+      {/* {completedTasks.map((completed, i) => (
         <div key={completed.task + i}>
           <li>
             <s>{completed.task}</s>
           </li>
         </div>
-      ))}
+      ))} */}
     </>
   );
 }
