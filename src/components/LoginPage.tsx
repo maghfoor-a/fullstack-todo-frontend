@@ -3,6 +3,7 @@ import { signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import "../components/Styling/LoginPage.css";
+import Demo from "./Demo";
 
 export default function LoginPage(): JSX.Element {
   const navigate = useNavigate();
@@ -34,6 +35,7 @@ export default function LoginPage(): JSX.Element {
         <span className="L">L</span>
         <span className="O1">E</span>
       </button>
+      <Demo />
     </div>
   );
 }
