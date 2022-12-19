@@ -1,0 +1,12 @@
+.AllTasksTitle {
+  background-color: #1e3948;
+  color: white;
+  font-size: 1.3rem;
+  justify-content: center;
+}
+
+.CompletedTasksTitle {
+  background-color: #2a4f65;
+  color: white;
+  font-size: 1.3rem;
+}

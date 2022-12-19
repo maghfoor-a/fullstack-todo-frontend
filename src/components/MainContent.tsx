@@ -3,6 +3,7 @@ import "./MainContentStyles.css";
 import { TaskType } from "../utils/interface-TaskType";
 import { auth } from "../config/firebaseConfig";
 import { signOut, User } from "firebase/auth";
+import "../components/Styling/MainContent.css";
 
 //importing helper functions
 import { handleCompleteTask } from "../utils/handleCompleteTask";
@@ -52,7 +53,7 @@ export default function MainContent(props: MainContentProps): JSX.Element {
   return (
     <>
       {props.LoggedInUser && (
-        <h4>Hi {props.LoggedInUser.displayName}! Here are your tasks!</h4>
+        <h4>Hi {props.LoggedInUser.displayName}! Let's get stuff done!</h4>
       )}
       {props.LoggedInUser && props.LoggedInUser.photoURL && (
         <img
@@ -65,7 +66,9 @@ export default function MainContent(props: MainContentProps): JSX.Element {
       <div>
         <button onClick={() => signOut(auth)}>SIGN OUT</button>
       </div>
-      <h1>ALL TASKS</h1>
+      <div className="AllTasksTitle">
+        <h1>ALL TASKS</h1>
+      </div>
       <p>Add a task name below!</p>
       <input
         value={inputVal}
@@ -84,8 +87,9 @@ export default function MainContent(props: MainContentProps): JSX.Element {
             <button onClick={() => deleteTask(task)}>❌</button>
           </div>
         ))}
-      <hr />
-      <h1>COMPLETED</h1>
+      <div className="CompletedTasksTitle">
+        <h1>COMPLETED</h1>
+      </div>
       <button onClick={clearCompleted}>Clear</button>
       {tasks
         .filter((task) => task.complete === true)
@@ -96,13 +100,6 @@ export default function MainContent(props: MainContentProps): JSX.Element {
             </li>
           </div>
         ))}
-      {/* {completedTasks.map((completed, i) => (
-        <div key={completed.task + i}>
-          <li>
-            <s>{completed.task}</s>
-          </li>
-        </div>
-      ))} */}
     </>
   );
 }

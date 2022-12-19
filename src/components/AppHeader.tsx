@@ -1,7 +1,9 @@
+import "../components/Styling/AppHeader.css";
+
 export default function AppHeader(): JSX.Element {
   return (
-    <>
-      <h1>GET THINGS DONE!</h1>
-    </>
+    <div className="AppTitle">
+      <h1>GET STUFF DONE!</h1>
+    </div>
   );
 }
