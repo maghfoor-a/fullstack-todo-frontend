@@ -20,7 +20,11 @@ export default function LoginPage(): JSX.Element {
   return (
     <>
       <h1>Login to get started!</h1>
-      <button onClick={() => signInWithGoogle()} disabled={authing}>
+      <button
+        className="Button"
+        onClick={() => signInWithGoogle()}
+        disabled={authing}
+      >
         LOGIN WITH GOOGLE
       </button>
     </>

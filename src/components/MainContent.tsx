@@ -64,33 +64,45 @@ export default function MainContent(props: MainContentProps): JSX.Element {
         />
       )}
       <div>
-        <button onClick={() => signOut(auth)}>SIGN OUT</button>
+        <button className="Button Signout" onClick={() => signOut(auth)}>
+          SIGN OUT
+        </button>
       </div>
       <div className="AllTasksTitle">
         <h1>ALL TASKS</h1>
       </div>
       <p>Add a task name below!</p>
       <input
+        className="InputField"
         value={inputVal}
         onChange={(e) => setInputVal(e.target.value)}
       ></input>
-      <button onClick={addTask}>add task</button>
-      <button onClick={clearTasks}>Clear All</button>
+      <button className="Button AddTask" onClick={addTask}>
+        Add Task
+      </button>
+      <button className="Button ClearTasks" onClick={clearTasks}>
+        Clear All
+      </button>
       <hr />
       {tasks
         .filter((task) => task.complete === false)
         .map((task, i) => (
-          <div key={i}>
-            <li className="TaskText">{task.task}</li>
-            {task.complete && <p>✅</p>}
-            <button onClick={() => completeTask(task)}>✅</button>
-            <button onClick={() => deleteTask(task)}>❌</button>
+          <div className="EachTask" key={i}>
+            <p className="TaskText">{task.task}</p>
+            <button className="Button Tick" onClick={() => completeTask(task)}>
+              ✅
+            </button>
+            <button className="Button Cross" onClick={() => deleteTask(task)}>
+              ❌
+            </button>
           </div>
         ))}
       <div className="CompletedTasksTitle">
         <h1>COMPLETED</h1>
       </div>
-      <button onClick={clearCompleted}>Clear</button>
+      <button className="Button" onClick={clearCompleted}>
+        Clear
+      </button>
       {tasks
         .filter((task) => task.complete === true)
         .map((task, i) => (

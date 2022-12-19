@@ -1,3 +1,46 @@
 .TaskText {
+  margin: 0;
+  background-color: #fffff2;
+}
+
+.EachTask {
+  width: 50%;
+  display: grid;
+  text-align: left;
+  grid-template-columns: 80% 5% 5%;
+  column-gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.Button {
   cursor: pointer;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+}
+.Signout {
+  padding: 1rem;
+}
+
+.InputField {
+  border: 2px solid black;
+  border-radius: 5px;
+  height: 40px;
+  padding: 0 11px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  color: grey;
+  font-size: 1.3rem;
+}
+
+.AddTask {
+  font-size: 1rem;
+  margin-right: 0.5rem;
+  font-weight: bold;
+}
+.ClearTasks {
+  font-size: 1rem;
+  margin-right: 0.5rem;
+  font-weight: bold;
 }
