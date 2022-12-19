@@ -2,6 +2,7 @@ import { auth, googleAuthProvider } from "../config/firebaseConfig";
 import { signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import "../components/Styling/LoginPage.css";
 
 export default function LoginPage(): JSX.Element {
   const navigate = useNavigate();
@@ -18,15 +19,21 @@ export default function LoginPage(): JSX.Element {
     }
   };
   return (
-    <>
+    <div className="LoginBody">
       <h1>Login to get started!</h1>
       <button
         className="Button"
         onClick={() => signInWithGoogle()}
         disabled={authing}
       >
-        LOGIN WITH GOOGLE
+        LOGIN WITH
+        <span className="G1"> G</span>
+        <span className="O1">O</span>
+        <span className="O2">O</span>
+        <span className="G1">G</span>
+        <span className="L">L</span>
+        <span className="O1">E</span>
       </button>
-    </>
+    </div>
   );
 }
