@@ -13,6 +13,10 @@ import { handleClearCompleted } from "../utils/handleClearCompleted";
 import { handleClearTasks } from "../utils/handleClearTasks";
 import { useFetchAllTasks } from "../utils/customHooks/fetchAllTasks";
 
+//importing icons
+import { TiTick } from "react-icons/ti";
+import { ImCross } from "react-icons/im";
+
 interface MainContentProps {
   LoggedInUser: User | null;
 }
@@ -90,10 +94,10 @@ export default function MainContent(props: MainContentProps): JSX.Element {
           <div className="EachTask" key={i}>
             <p className="TaskText">{task.task}</p>
             <button className="Button Tick" onClick={() => completeTask(task)}>
-              ✅
+              <TiTick size="2rem" color="green" />
             </button>
             <button className="Button Cross" onClick={() => deleteTask(task)}>
-              ❌
+              <ImCross size="1rem" color="red" />
             </button>
           </div>
         ))}
