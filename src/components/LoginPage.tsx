@@ -35,6 +35,7 @@ export default function LoginPage(): JSX.Element {
         <span className="L">L</span>
         <span className="O1">E</span>
       </button>
+      <hr />
       <Demo />
     </div>
   );
